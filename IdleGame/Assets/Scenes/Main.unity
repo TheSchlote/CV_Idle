@@ -1881,19 +1881,23 @@ MonoBehaviour:
   money: 0
   dpc: 0
   health: 0
-  healthMax: 0
   stage: 0
   stageMax: 0
   kills: 0
   killsMax: 0
+  BossMultiplyer: 0
   MoneyText: {fileID: 864698827}
   DPCText: {fileID: 516499662}
   StageText: {fileID: 372795118}
   KillsText: {fileID: 164777249}
   healthText: {fileID: 1297152061}
+  timerText: {fileID: 0}
   back: {fileID: 1271710795}
   forward: {fileID: 357807428}
   heatlhBar: {fileID: 1406247426}
+  timerBar: {fileID: 0}
+  timer: 0
+  timerCap: 0
 --- !u!4 &1312138102
 Transform:
   m_ObjectHideFlags: 0
