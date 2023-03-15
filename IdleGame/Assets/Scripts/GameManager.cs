@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     private const int killMax = 3;
-    private const int BossStage = 3;
+    private const int BossStage = 4;
 
     public double Money;
     public double DamagePer;
@@ -50,15 +50,11 @@ public class GameManager : MonoBehaviour
     public Enemies[] enemies;
     public void Start()
     {
-        for (int i = 3; i <= 31; i += BossStage)
+        for (int i = 3; i <= 32; i += BossStage)
         {
             BossLevels.Add(i);
         }
-        BossLevels.Add(32);
-        BossLevels.Add(33);
-        BossLevels.Add(34);
-        BossLevels.Add(35);
-        DamagePer = 1;
+        DamagePer = 100;
         Stage = 1;
         StageMax = 1;
         KillsMax = killMax;
@@ -97,26 +93,31 @@ public class GameManager : MonoBehaviour
         TotalKills++;
         EnemyHolder.sprite = enemies[TotalKills].Enemy;
         
-        bool isBoss = BossLevels.Contains(TotalKills);
-        BossMultiplyer = isBoss ? killMax : 1;
-        KillsMax = BossMultiplyer == killMax ? 1 : killMax;
-        StageText.text = isBoss ? $"BOSS - {Stage}" : $"Stage - {Stage}";
 
-        Health = HealthMax;
-
-        //This Logic does not work
-        if (isBoss && Kills > KillsMax)
+        if (Kills >= KillsMax)
         {
+            Kills = 0;
             StageComplete();
         }
+        bool isBoss = BossLevels.Contains(TotalKills) || TotalKills >= 32;
+        BossMultiplyer = isBoss ? BossStage : 1;
+        KillsMax = BossMultiplyer == BossStage ? 1 : killMax;
+
+        StageText.text = isBoss ? $"BOSS - {Stage}" : $"Stage - {Stage}";
+        Health = HealthMax;
     }
 
     private void StageComplete()
     {
-        Kills = 0;
-        BattleBackHolder.sprite = BattleBacks[Stage];
-        Stage++;
-        StageMax++;
+        if (KillsMax == 1)
+        {
+            if(Stage < 9)
+            {
+                BattleBackHolder.sprite = BattleBacks[Stage];
+            }
+            Stage++;
+            StageMax++;
+        }
     }
 
     public void BackButton()
